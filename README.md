@@ -13,7 +13,7 @@ The image output contains `metadata/tarball/nixos.tar.xz` and `disk/nixos.qcow2`
 
 ## Deployment ownership
 
-Ashyn pins this flake as `guestSpike`. Its host-managed image-import unit imports the pinned artifacts; its Incus reconciler creates the missing `ashyn-nixos` VM and starts it. No manual image import, VM launch, installer, or guest setup command is part of provisioning.
+Ashyn pins this flake as `guestSpike`. Its local Incus module consumes this image package through the instance's `imagePackage` option, imports the pinned artifacts, then creates and starts the missing `ashyn-nixos` VM. No per-guest import service, manual image import, VM launch, installer, or guest setup command is part of provisioning.
 
 Once running, the guest polls this repository's `master` with comin. Edit `guest.nix`, build the toplevel, then commit and push here to update the existing guest. No host change or image rebuild is needed for an ordinary guest deployment. Do not run a competing manual switch.
 
