@@ -3,6 +3,7 @@
   imports = [
     (modulesPath + "/virtualisation/incus-virtual-machine.nix")
     dotfiles.modules.nixos.comin
+    dotfiles.modules.nixos.guest-access
   ];
 
   networking.hostName = "ashyn-nixos";
@@ -14,19 +15,10 @@
   nix.settings.max-jobs = 1;
   ryk.comin.url = "https://github.com/rykugur/nixos-guest-spike.git";
 
-  services.openssh = {
-    enable = true;
-    startWhenNeeded = false;
-    settings = {
-      PasswordAuthentication = false;
-      KbdInteractiveAuthentication = false;
-      PermitRootLogin = "prohibit-password";
-    };
-  };
-  users.users.root = {
-    initialHashedPassword = lib.mkForce "!";
-    openssh.authorizedKeys.keys = import (dotfiles.outPath + "/modules/misc/_dusty-ssh-keys.nix");
-  };
+  services.openssh.startWhenNeeded = false;
+  users.users.root.initialHashedPassword = lib.mkForce "!";
+  # Ashyn supplies this guest-local hash; the guest has no decryption keys.
+  ryk.guestAccess.passwordFile = "/var/lib/guest-access/password-hash";
 
   services.nginx.enable = true;
   services.nginx.virtualHosts.default.locations."/".return = ''200 "guest-spike-v2\n"'';

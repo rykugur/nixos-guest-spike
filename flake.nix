@@ -2,7 +2,7 @@
   description = "Disposable NixOS guest bootstrap and comin deployment spike";
 
   inputs = {
-    dotfiles.url = "github:rykugur/dotfiles/19ce095a4cd857f07e5cbdc347e43e6efca9eb75";
+    dotfiles.url = "github:rykugur/dotfiles/1df88bb7";
     nixpkgs.follows = "dotfiles/nixpkgs";
   };
 
@@ -11,7 +11,7 @@
       system = "x86_64-linux";
       guest = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit dotfiles; };
+        specialArgs = { inherit dotfiles; username = "dusty"; };
         modules = [ ./guest.nix ];
       };
       pkgs = nixpkgs.legacyPackages.${system};

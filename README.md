@@ -11,6 +11,17 @@ nix build .#nixosConfigurations.ashyn-nixos.config.system.build.toplevel --no-li
 
 The image output contains `metadata/tarball/nixos.tar.xz` and `disk/nixos.qcow2`, built with Nixpkgs' Incus VM module. It includes DHCP, the Incus agent, public SSH authorization, comin, and a small HTTP demonstration service. It contains no private SSH keys or repository credentials; the guest generates its own identity at boot. SSH password authentication is disabled.
 
+`dotfiles.modules.nixos.guest-access` creates the normal `dusty` user with
+shared public SSH keys and passwordless sudo. SSH passwords and keyboard-interactive
+authentication are disabled; root SSH is disabled. This imports no Home Manager
+client configuration or SOPS module, and grants no ability to decrypt dotfiles secrets.
+
+Ashyn alone decrypts its `guest_user_password_hash` and supplies the guest-local
+`/var/lib/guest-access/password-hash` through the Incus agent. It is not baked
+into the image or stored in this repo. The account has no usable console password
+until that file is supplied; SSH keys still work. The console password does not
+enable SSH password authentication. Persist the file when adding guest impermanence.
+
 ## Deployment ownership
 
 Ashyn pins this flake as `guestSpike`. Its local Incus module consumes this image package through the instance's `imagePackage` option, imports the pinned artifacts, then creates and starts the missing `ashyn-nixos` VM. No per-guest import service, manual image import, VM launch, installer, or guest setup command is part of provisioning.

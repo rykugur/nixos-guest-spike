@@ -326,17 +326,17 @@
         "zmx-session-manager": "zmx-session-manager"
       },
       "locked": {
-        "lastModified": 1793035823,
-        "narHash": "sha256-vAZj6DkFSei4voXlATbvJEAFOj7BsYQDJJ8zVlUu3EU=",
+        "lastModified": 1793048592,
+        "narHash": "sha256-aoPqT2Yg9qwB0YFA6noqYSGBUbg3Ap3/mzrPvBtIhog=",
         "owner": "rykugur",
         "repo": "dotfiles",
-        "rev": "19ce095a4cd857f07e5cbdc347e43e6efca9eb75",
+        "rev": "1df88bb7e71645746a74092d4f16ac61fd427454",
         "type": "github"
       },
       "original": {
         "owner": "rykugur",
+        "ref": "1df88bb7",
         "repo": "dotfiles",
-        "rev": "19ce095a4cd857f07e5cbdc347e43e6efca9eb75",
         "type": "github"
       }
     },
