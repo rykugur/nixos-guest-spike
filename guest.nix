@@ -29,7 +29,7 @@
   };
 
   services.nginx.enable = true;
-  services.nginx.virtualHosts.default.locations."/".return = ''200 "guest-spike-v1\n"'';
+  services.nginx.virtualHosts.default.locations."/".return = ''200 "guest-spike-v2\n"'';
   environment.systemPackages = [ pkgs.curl ];
   documentation.enable = lib.mkForce false;
   documentation.nixos.enable = lib.mkForce false;
