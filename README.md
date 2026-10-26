@@ -1,0 +1,24 @@
+# NixOS guest spike
+
+Disposable Incus VM proving an image bootstrap followed by guest-owned comin deployments. Guest OS configuration lives here; the Incus instance definition lives in [Ashyn](https://github.com/rykugur/ashyn), and reusable modules live in [dotfiles](https://github.com/rykugur/dotfiles).
+
+## Build
+
+```nu
+nix build .#packages.x86_64-linux.default --no-link --print-out-paths
+nix build .#nixosConfigurations.ashyn-nixos.config.system.build.toplevel --no-link
+```
+
+The image output contains `metadata/tarball/nixos.tar.xz` and `disk/nixos.qcow2`, built with Nixpkgs' Incus VM module. It includes DHCP, the Incus agent, public SSH authorization, comin, and a small HTTP demonstration service. It contains no private SSH keys or repository credentials; the guest generates its own identity at boot. SSH password authentication is disabled.
+
+## Deployment ownership
+
+Ashyn pins this flake as `guestSpike`. Its host-managed image-import unit imports the pinned artifacts; its Incus reconciler creates the missing `ashyn-nixos` VM and starts it. No manual image import, VM launch, installer, or guest setup command is part of provisioning.
+
+Once running, the guest polls this repository's `master` with comin. Edit `guest.nix`, build the toplevel, then commit and push here to update the existing guest. No host change or image rebuild is needed for an ordinary guest deployment. Do not run a competing manual switch.
+
+To select a newer bootstrap image for future creation, update Ashyn's `guestSpike` input and build/deploy the host. This does not reinstall an existing guest or replace its disk. The bootstrap pin and the guest's tracking branch deliberately have different roles.
+
+This guest uses a persistent ext4 root, not guest-level impermanence. Ashyn's host root rollback must preserve the entire Incus database and guest disks. Private workload repos would require a separate per-guest credential bootstrap; this public spike does not test that.
+
+Durable decisions and observed acceptance results live in Arcanum: `wiki/Projects/Ashyn/Ashyn.md` and `log/2026-10.md`.
