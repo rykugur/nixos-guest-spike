@@ -23,6 +23,12 @@
   services.nginx.enable = true;
   services.nginx.virtualHosts.default.locations."/".return = ''200 "guest-spike-v2\n"'';
   environment.systemPackages = [ pkgs.curl ];
+  system.extraDependencies = [
+    (pkgs.runCommand "intentional-comin-recovery-failure" { } ''
+      echo "INTENTIONAL_COMIN_RECOVERY_FAILURE" >&2
+      exit 1
+    '')
+  ];
   documentation.enable = lib.mkForce false;
   documentation.nixos.enable = lib.mkForce false;
   system.installer.channel.enable = false;
