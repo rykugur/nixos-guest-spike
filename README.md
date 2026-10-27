@@ -32,4 +32,11 @@ To select a newer bootstrap image for future creation, update Ashyn's `guestSpik
 
 This guest uses a persistent ext4 root, not guest-level impermanence. Ashyn's host root rollback must preserve the entire Incus database and guest disks. Private workload repos would require a separate per-guest credential bootstrap; this public spike does not test that.
 
+The controlled comin recovery test uses an intentional failing derivation,
+then removes it and changes the HTTP response to `guest-spike-v3-recovered`.
+The failed build must leave the previous system and service running; the
+corrective push must deploy without a reboot or lost guest data. Historical
+test commits include the deliberate failure; do not select that revision as
+a bootstrap pin. Detailed observed results are recorded in Arcanum.
+
 Durable decisions and observed acceptance results live in Arcanum: `wiki/Projects/Ashyn/Ashyn.md` and `log/2026-10.md`.
