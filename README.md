@@ -1,6 +1,6 @@
 # NixOS guest spike
 
-Disposable Incus VM proving an image bootstrap followed by guest-owned comin deployments. Guest OS configuration lives here; the Incus instance definition lives in [Ashyn](https://github.com/rykugur/ashyn), and reusable modules live in [dotfiles](https://github.com/rykugur/dotfiles).
+Disposable Incus VM proving an image bootstrap followed by guest-owned comin deployments. Guest OS configuration lives here; the Incus instance definition lives in [Ashyn](https://forgejo.k8s.local.ryk.sh/dusty/ashyn), and reusable modules live in [dotfiles](https://github.com/rykugur/dotfiles).
 
 ## Build
 
